@@ -32,6 +32,10 @@ public class DenseStringList implements StringList {
         expandable = true;
     }
 
+    public boolean isExpandable() {
+        return expandable;
+    }
+
     @Override
     public String add(String item) {
         validateCapacity();
