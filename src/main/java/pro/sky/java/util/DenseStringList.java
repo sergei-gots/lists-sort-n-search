@@ -2,6 +2,8 @@ package pro.sky.java.util;
 
 import pro.sky.java.util.exception.*;
 
+import java.util.stream.IntStream;
+
 /** @implNote StringList with all the valued items placed at the head of,
  * i.e. in case the item is to be removed all the rest content will be shifted
  * one position to the head.
@@ -19,9 +21,18 @@ public class DenseStringList implements StringList {
         this(DEFAULT_CAPACITY);
     }
 
+    public DenseStringList(DenseStringList source) {
+        this.expandable = source.expandable;
+        this.capacity = source.capacity;
+        this.count = source.count;
+        items = new String[capacity];
+        IntStream.range(0, count).forEach(i -> items[i] = source.items[i]);
+
+    }
+
     public DenseStringList(int capacity) {
-        if (capacity <= 0) {
-            throw new IllegalArgumentException("The size of list should be > 0");
+        if (capacity < 0) {
+            throw new IllegalArgumentException("The capacity should be a natural number");
         }
         this.capacity = capacity;
         this.items = new String[capacity];
@@ -33,9 +44,14 @@ public class DenseStringList implements StringList {
         this.expandable = expandable;
     }
 
+    public int getCapacity() {
+        return capacity;
+    }
     public void makeExpandable() {
         expandable = true;
     }
+
+    public void disableExpandable() { expandable = false; }
 
     public boolean isExpandable() {
         return expandable;
@@ -72,12 +88,15 @@ public class DenseStringList implements StringList {
         if(!expandable) {
             throw new StringListIsFullException();
         }
-        capacity *= CAPACITY_INCREASE_MULTIPLICITY;
-        String[] comodiousList  = new String[capacity];
-        for (int i = 0; i < items.length; i++) {
-            comodiousList[i] = items[i];
+        if(capacity < 1) {
+            capacity = 1;
+            items = new String[capacity];
+            return;
         }
-        items = comodiousList;
+        capacity *= CAPACITY_INCREASE_MULTIPLICITY;
+        String[] commodiousList  = new String[capacity];
+        System.arraycopy(items, 0, commodiousList, 0, items.length);
+        items = commodiousList;
     }
 
     /** @throws pro.sky.java.util.exception.DenseStringListAttemptToTouchEmptyAreaException
