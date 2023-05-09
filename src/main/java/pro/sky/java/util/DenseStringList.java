@@ -11,8 +11,13 @@ public class DenseStringList implements StringList {
     private int capacity;
     private boolean expandable = false;
     private final static int CAPACITY_INCREASE_MULTIPLICITY = 2;
+    private final static int DEFAULT_CAPACITY = 10;
     private int count;
     private String[] items;
+
+    public DenseStringList() {
+        this(DEFAULT_CAPACITY);
+    }
 
     public DenseStringList(int capacity) {
         if (capacity <= 0) {
@@ -189,6 +194,18 @@ public class DenseStringList implements StringList {
     public String[] toArray() {
         String[] array = new String[count];
         System.arraycopy(items, 0, array, 0, count);
+        return array;
+    }
+
+    public String[] toArray(int index) {
+        if(index > count) {
+            throw new DenseStringListAttemptToTouchEmptyAreaException(index);
+        }
+        if(index == count) {
+            return new String[0];
+        }
+        String[] array = new String[count-index];
+        System.arraycopy(items, index, array, 0, count-index);
         return array;
     }
 }
