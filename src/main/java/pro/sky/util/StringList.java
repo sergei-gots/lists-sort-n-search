@@ -1,4 +1,8 @@
-package pro.sky.java.util;
+package pro.sky.util;
+
+import pro.sky.util.exception.StringListIsFullException;
+import pro.sky.util.exception.StringListNoSuchElementException;
+import pro.sky.util.exception.StringListNullPointerException;
 
 public interface StringList {
 
@@ -11,7 +15,7 @@ public interface StringList {
 
     /** adds an item into a specified position within the list.
      *
-     * @throws pro.sky.java.util.exception.StringListIsFullException if the given position
+     * @throws StringListIsFullException if the given position
      * points outside of the actual number of list items.
      * @param index position within the list to insert the item there
      * @param item an item to be added
@@ -21,7 +25,7 @@ public interface StringList {
 
     /** Sets an item to a specified position with replacing an existing one.
      *
-     * @throws pro.sky.java.util.exception.StringListIsFullException if the given position
+     * @throws StringListIsFullException if the given position
      * points outside the actual number of list items.
      * @param index position within the list to insert the item there
      * @param item an item to be added
@@ -31,7 +35,7 @@ public interface StringList {
 
     /** Removes the first occurrence of a specified item.
      *
-     * @throws pro.sky.java.util.exception.StringListNoSuchElementException if there isn't such an item
+     * @throws StringListNoSuchElementException if there isn't such an item
      * within list.
      * @param item an item to be removed
      * @return the removed item
@@ -40,7 +44,7 @@ public interface StringList {
 
     /** Removes a specified with a position item.
      *
-     * @throws pro.sky.java.util.exception.StringListNoSuchElementException if there isn't such an item
+     * @throws StringListNoSuchElementException if there isn't such an item
      * within list.
      * @param index of an item to be removed
      * @return the removed item
@@ -61,7 +65,7 @@ public interface StringList {
 
     /** Gets an item specified with a position.
      *
-     * @throws pro.sky.java.util.exception.StringListNoSuchElementException if there isn't such an item
+     * @throws StringListNoSuchElementException if there isn't such an item
      * within list.
      * @param index of an item to be got
      * @return the specified item
@@ -69,7 +73,7 @@ public interface StringList {
     String get(int index);
 
     /** Compares current StringList with another one.
-     * @throws pro.sky.java.util.exception.StringListNullPointerException if otherList is null.
+     * @throws StringListNullPointerException if otherList is null.
      * @param otherList - a StringList instance to be compared with
      * @return true if the content of the list are exactly the same, otherwise false
      **/

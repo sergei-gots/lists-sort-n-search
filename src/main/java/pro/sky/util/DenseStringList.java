@@ -1,6 +1,6 @@
-package pro.sky.java.util;
+package pro.sky.util;
 
-import pro.sky.java.util.exception.*;
+import pro.sky.util.exception.*;
 
 import java.util.stream.IntStream;
 
@@ -59,20 +59,17 @@ public class DenseStringList implements StringList {
 
     @Override
     public String add(String item) {
-        validateCapacity();
-        items[count++] = item;
-        return item;
+        return add(count, item);
     }
 
-    /** @throws pro.sky.java.util.exception.DenseStringListAttemptToTouchEmptyAreaException
+    /** @throws StringListIndexOutOfBoundsException
      * if the index points to an area outside the valued data
      **/
     @Override
     public String add(int index, String item) {
-        if (index < 0 || index > count) {
-            throw new DenseStringListAttemptToTouchEmptyAreaException(index);
-        }
-        validateCapacity();
+        validateItem(item);
+        validateIndexWhileAdd(index);
+
         for(int i = count; i > index; i--) {
             items[i] = items[i-1];
         }
@@ -81,7 +78,17 @@ public class DenseStringList implements StringList {
         return item;
     }
 
-    private void validateCapacity() {
+    private void validateItem(String item) {
+        if(item == null) {
+            throw new StringListItemIsNullException();
+        }
+    }
+
+    private void validateIndexWhileAdd(int index) {
+        if (index < 0 || index > count) {
+            throw new StringListIndexOutOfBoundsException(index);
+        }
+
         if (count < capacity) {
             return;
         }
@@ -99,17 +106,20 @@ public class DenseStringList implements StringList {
         items = commodiousList;
     }
 
-    /** @throws pro.sky.java.util.exception.DenseStringListAttemptToTouchEmptyAreaException
+    private void validateIndexIfDoesExist(int index) {
+        if (index < 0 || index >= count) {
+            throw new StringListIndexOutOfBoundsException(index);
+        }
+    }
+
+    /** @throws StringListIndexOutOfBoundsException
      * if the index points to an area outside the valued data
      **/
     @Override
     public String set(int index, String item) {
-        if (index < 0 || index > count) {
-            throw new DenseStringListAttemptToTouchEmptyAreaException(index);
-        }
-        if (index == capacity) {
-            validateCapacity();
-        }
+        validateItem(item);
+        validateIndexWhileAdd(index);
+
         items[index] = item;
         if(index == count) {
             count++;
@@ -119,6 +129,7 @@ public class DenseStringList implements StringList {
 
      @Override
     public String remove(String item) {
+        validateItem(item);
         int index = indexOf(item);
         if(index < 0) {
             throw new StringListNoSuchElementException(item);
@@ -128,27 +139,22 @@ public class DenseStringList implements StringList {
 
     @Override
     public String remove(int index) {
-        if(index < 0 || index >= capacity) {
-            throw new StringListOutOfBoundsException();
-        }
-        if(index >= count) {
-            throw new StringListNoSuchElementException(index);
-        }
+        validateIndexIfDoesExist(index);
         String item = items[index];
-        for(int i = index; i < count - 1; i++) {
-            items[i] = items[i+1];
-        }
         count--;
+        System.arraycopy(items, index+1, items, index, count-index);
         return item;
     }
 
     @Override
     public boolean contains(String item) {
+        validateItem(item);
         return indexOf(item) >= 0;
     }
 
     @Override
     public int indexOf(String item) {
+        validateItem(item);
         for (int i = 0; i < count; i++) {
             if (items[i].equals(item)) {
                 return i;
@@ -159,6 +165,7 @@ public class DenseStringList implements StringList {
 
     @Override
     public int lastIndexOf(String item) {
+        validateItem(item);
         for (int i = count-1; i >= 0; i--) {
             if (items[i].equals(item)) {
                 return i;
@@ -169,12 +176,7 @@ public class DenseStringList implements StringList {
 
     @Override
     public String get(int index) {
-        if(index < 0 || index >= capacity) {
-            throw new StringListOutOfBoundsException();
-        }
-        if(index >= count) {
-            throw new StringListNoSuchElementException(index);
-        }
+        validateIndexIfDoesExist(index);
         return items[index];
     }
 
@@ -218,7 +220,7 @@ public class DenseStringList implements StringList {
 
     public String[] toArray(int index) {
         if(index > count) {
-            throw new DenseStringListAttemptToTouchEmptyAreaException(index);
+            throw new StringListIndexOutOfBoundsException(index);
         }
         if(index == count) {
             return new String[0];

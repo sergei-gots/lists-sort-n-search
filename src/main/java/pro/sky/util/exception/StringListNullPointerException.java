@@ -1,4 +1,4 @@
-package pro.sky.java.util.exception;
+package pro.sky.util.exception;
 
 public class StringListNullPointerException extends NullPointerException {
 }
