@@ -99,14 +99,14 @@ class DenseIntegerListTest {
     void add(int index, Integer item) {
         //GIVEN
         int count = denseIntegerList.size();
-        List<Integer> toTheRight = List.of(denseIntegerList.toArray(index));
+        List<Integer> toTheRight = denseIntegerList.toList(index);
         //WHEN
         assertThat(denseIntegerList.add(index, item)).isEqualTo(item);
         //THEN
         assertThat(denseIntegerList.size()).isEqualTo(count+1);
         assertThat(denseIntegerList.get(index)).isEqualTo(item);
         assertThat(denseIntegerList.contains(item)).isTrue();
-        assertThat(List.of(denseIntegerList.toArray(index+1)))
+        assertThat(denseIntegerList.toList(index+1))
                 .usingRecursiveComparison()
                 .asList()
                 .containsExactlyElementsOf(toTheRight);
@@ -179,7 +179,7 @@ class DenseIntegerListTest {
         assertThat(denseIntegerList.lastIndexOf(40)).isEqualTo(4);
         assertThat(denseIntegerList.lastIndexOf(50)).isEqualTo(6);
 
-        Integer itemEleventh = 110;
+        int itemEleventh = 110;
         assertThat(denseIntegerList.contains(itemEleventh)).isFalse();
         assertThat(denseIntegerList.lastIndexOf(itemEleventh)).isEqualTo(-1);
 
@@ -235,8 +235,8 @@ class DenseIntegerListTest {
     }
 
     @Test
-    void toArray() {
-        assertThat(List.of(denseIntegerList.toArray()))
+    void toList() {
+        assertThat(denseIntegerList.toList())
                 .usingRecursiveComparison()
                 .asList()
                 .containsExactlyElementsOf(List.of(
@@ -246,6 +246,15 @@ class DenseIntegerListTest {
                         40,
                         50)
                 );
+    }
+
+    @Test
+    void toArray() {
+        int [] actual = denseIntegerList.toArray();
+        assertThat(actual.length).isEqualTo(5);
+        for (int i = 0; i < 5; i++) {
+            assertThat(actual[i]).isEqualTo((i + 1)* 10);
+        }
     }
 
     @Test
@@ -450,30 +459,6 @@ class DenseIntegerListTest {
                 .isThrownBy(() -> denseIntegerList.toArray(size+1));
         assertThat(denseIntegerList.toArray(size).length).isEqualTo(0);
         assertThat(denseIntegerList.toArray(size-1).length).isEqualTo(1);
-    }
-
-    @Test
-    void should_throwListItemIsNullException_whenAdd_whenItemIsNull() {
-        final int size = denseIntegerList.size();
-        assertThatExceptionOfType(ListItemIsNullException.class)
-                .isThrownBy(() -> denseIntegerList.add(null));
-        assertThat(denseIntegerList.size()).isEqualTo(size);
-    }
-
-    @Test
-    void should_throwListItemIsNullException_whenAddWithIndex_whenItemIsNull() {
-        final int size = denseIntegerList.size();
-        assertThatExceptionOfType(ListItemIsNullException.class)
-                .isThrownBy(() -> denseIntegerList.add(0, null));
-        assertThat(denseIntegerList.size()).isEqualTo(size);
-    }
-
-    @Test
-    void should_throwListItemIsNullException_whenSet_whenItemIsNull() {
-        final int size = denseIntegerList.size();
-assertThatExceptionOfType(ListItemIsNullException.class)
-                .isThrownBy(() -> denseIntegerList.set(0, null));
-        assertThat(denseIntegerList.size()).isEqualTo(size);
     }
 
 }

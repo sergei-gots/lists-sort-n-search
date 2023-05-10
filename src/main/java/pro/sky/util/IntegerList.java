@@ -11,7 +11,7 @@ public interface IntegerList {
      * @param item item to be added
      * @return added item
      */
-    Integer add(Integer item);
+    int add(int item);
 
     /** adds an item into a specified position within the list.
      *
@@ -21,7 +21,7 @@ public interface IntegerList {
      * @param item an item to be added
      * @return the added item
      */
-    Integer add(int index, Integer item);
+    int add(int index, int item);
 
     /** Sets an item to a specified position with replacing an existing one.
      *
@@ -31,7 +31,7 @@ public interface IntegerList {
      * @param item an item to be added
      * @return the added item
      */
-    Integer set(int index, Integer item);
+    int set(int index, int item);
 
     /** Removes the first occurrence of a specified item.
      *
@@ -40,7 +40,7 @@ public interface IntegerList {
      * @param item an item to be removed
      * @return the removed item
      */
-    Integer removeByValue(Integer item);
+    int removeByValue(int item);
 
     /** Removes a specified with a position item.
      *
@@ -49,19 +49,19 @@ public interface IntegerList {
      * @param index of an item to be removed
      * @return the removed item
      */
-    Integer removeByIndex(int index);
+    int removeByIndex(int index);
 
     // Checks if an item is listed in the list.
     // @return true if the item is listed, otherwise - false
-    boolean contains(Integer item);
+    boolean contains(int item);
 
     // Looks for an index of the first item occurrence within the list
     // @return the index of the specified item or -1 if there isn't such an item within the list
-    int indexOf(Integer item);
+    int indexOf(int item);
 
     // Looks for an index of the last item occurrence within the list
     // @return the index of the specified item or -1 if there isn't such an item within the list
-    int lastIndexOf(Integer item);
+    int lastIndexOf(int item);
 
     /** Gets an item specified with a position.
      *
@@ -70,7 +70,7 @@ public interface IntegerList {
      * @param index of an item to be got
      * @return the specified item
      */
-    Integer get(int index);
+    int get(int index);
 
     /** Compares current IntegerList with another one.
      * @throws ListNullPointerException if otherList is null.
@@ -89,5 +89,5 @@ public interface IntegerList {
     void clear();
 
     /** @return a created Integer array with all the items of the list **/
-    Integer[] toArray();
+    int[] toArray();
 }
