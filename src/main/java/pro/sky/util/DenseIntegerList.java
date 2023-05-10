@@ -16,8 +16,8 @@ public class DenseIntegerList implements IntegerList {
     private boolean expandable = false;
     private final static int CAPACITY_INCREASE_MULTIPLICITY = 2;
     private final static int DEFAULT_CAPACITY = 10;
-    private int count;
-    private int[] items;
+    int count;
+    int[] items;
 
     public DenseIntegerList() {
         this(DEFAULT_CAPACITY);
