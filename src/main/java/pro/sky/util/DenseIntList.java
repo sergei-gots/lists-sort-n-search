@@ -11,19 +11,19 @@ import java.util.stream.IntStream;
  * one position to the head.
  *
  * **/
-public class DenseIntegerList implements IntegerList {
+public class DenseIntList implements IntList {
     private int capacity;
     private boolean expandable = false;
-    private final static int CAPACITY_INCREASE_MULTIPLICITY = 2;
+    private final static double CAPACITY_INCREASE_MULTIPLICITY = 1.5;
     private final static int DEFAULT_CAPACITY = 10;
     int count;
     int[] items;
 
-    public DenseIntegerList() {
+    public DenseIntList() {
         this(DEFAULT_CAPACITY);
     }
 
-    public DenseIntegerList(DenseIntegerList source) {
+    public DenseIntList(DenseIntList source) {
         this.expandable = source.expandable;
         this.capacity = source.capacity;
         this.count = source.count;
@@ -32,7 +32,7 @@ public class DenseIntegerList implements IntegerList {
 
     }
 
-    public DenseIntegerList(int capacity) {
+    public DenseIntList(int capacity) {
         if (capacity < 0) {
             throw new IllegalArgumentException("The capacity should be a natural number");
         }
@@ -41,11 +41,10 @@ public class DenseIntegerList implements IntegerList {
         this.count = 0;
     }
 
-    public DenseIntegerList(int capacity, boolean expandable) {
+    public DenseIntList(int capacity, boolean expandable) {
         this(capacity);
         this.expandable = expandable;
     }
-
     public int getCapacity() {
         return capacity;
     }
@@ -95,7 +94,7 @@ public class DenseIntegerList implements IntegerList {
             items = new int[capacity];
             return;
         }
-        capacity *= CAPACITY_INCREASE_MULTIPLICITY;
+        capacity = (int)((double)(capacity) * CAPACITY_INCREASE_MULTIPLICITY);
         int[] commodiousList  = new int[capacity];
         System.arraycopy(items, 0, commodiousList, 0, items.length);
         items = commodiousList;
@@ -171,7 +170,7 @@ public class DenseIntegerList implements IntegerList {
     }
 
     @Override
-    public boolean equals(IntegerList otherList) {
+    public boolean equals(IntList otherList) {
         if(otherList == null) {
             throw new ListNullPointerException();
         }

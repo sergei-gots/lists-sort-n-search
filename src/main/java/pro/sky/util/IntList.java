@@ -4,7 +4,7 @@ import pro.sky.util.exception.ListIsFullException;
 import pro.sky.util.exception.ListNoSuchElementException;
 import pro.sky.util.exception.ListNullPointerException;
 
-public interface IntegerList {
+public interface IntList {
 
     /** adds an item to the list.
      *
@@ -77,7 +77,7 @@ public interface IntegerList {
      * @param otherList - a IntegerList instance to be compared with
      * @return true if the content of the list are exactly the same, otherwise false
      **/
-    boolean equals(IntegerList otherList);
+    boolean equals(IntList otherList);
 
     /** @return the actual count of items within the list **/
     int size();
