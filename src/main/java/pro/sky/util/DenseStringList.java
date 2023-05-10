@@ -62,7 +62,7 @@ public class DenseStringList implements StringList {
         return add(count, item);
     }
 
-    /** @throws StringListIndexOutOfBoundsException
+    /** @throws ListIndexOutOfBoundsException
      * if the index points to an area outside the valued data
      **/
     @Override
@@ -80,20 +80,20 @@ public class DenseStringList implements StringList {
 
     private void validateItem(String item) {
         if(item == null) {
-            throw new StringListItemIsNullException();
+            throw new ListItemIsNullException();
         }
     }
 
     private void validateIndexWhileAdd(int index) {
         if (index < 0 || index > count) {
-            throw new StringListIndexOutOfBoundsException(index);
+            throw new ListIndexOutOfBoundsException(index);
         }
 
         if (count < capacity) {
             return;
         }
         if(!expandable) {
-            throw new StringListIsFullException();
+            throw new ListIsFullException();
         }
         if(capacity < 1) {
             capacity = 1;
@@ -108,11 +108,11 @@ public class DenseStringList implements StringList {
 
     private void validateIndexIfDoesExist(int index) {
         if (index < 0 || index >= count) {
-            throw new StringListIndexOutOfBoundsException(index);
+            throw new ListIndexOutOfBoundsException(index);
         }
     }
 
-    /** @throws StringListIndexOutOfBoundsException
+    /** @throws ListIndexOutOfBoundsException
      * if the index points to an area outside the valued data
      **/
     @Override
@@ -132,7 +132,7 @@ public class DenseStringList implements StringList {
         validateItem(item);
         int index = indexOf(item);
         if(index < 0) {
-            throw new StringListNoSuchElementException(item);
+            throw new ListNoSuchElementException(item);
         }
         return remove(index);
     }
@@ -183,7 +183,7 @@ public class DenseStringList implements StringList {
     @Override
     public boolean equals(StringList otherList) {
         if(otherList == null) {
-            throw new StringListNullPointerException();
+            throw new ListNullPointerException();
         }
         if(count != otherList.size()) {
             return false;
@@ -220,7 +220,7 @@ public class DenseStringList implements StringList {
 
     public String[] toArray(int index) {
         if(index > count) {
-            throw new StringListIndexOutOfBoundsException(index);
+            throw new ListIndexOutOfBoundsException(index);
         }
         if(index == count) {
             return new String[0];
