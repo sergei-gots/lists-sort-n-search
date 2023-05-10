@@ -4,14 +4,14 @@ import pro.sky.util.exception.ListIsFullException;
 import pro.sky.util.exception.ListNoSuchElementException;
 import pro.sky.util.exception.ListNullPointerException;
 
-public interface StringList {
+public interface IntList {
 
     /** adds an item to the list.
      *
      * @param item item to be added
      * @return added item
      */
-    String add(String item);
+    int add(int item);
 
     /** adds an item into a specified position within the list.
      *
@@ -21,7 +21,7 @@ public interface StringList {
      * @param item an item to be added
      * @return the added item
      */
-    String add(int index, String item);
+    int add(int index, int item);
 
     /** Sets an item to a specified position with replacing an existing one.
      *
@@ -31,7 +31,7 @@ public interface StringList {
      * @param item an item to be added
      * @return the added item
      */
-    String set(int index, String item);
+    int set(int index, int item);
 
     /** Removes the first occurrence of a specified item.
      *
@@ -40,7 +40,7 @@ public interface StringList {
      * @param item an item to be removed
      * @return the removed item
      */
-    String remove(String item);
+    int removeByValue(int item);
 
     /** Removes a specified with a position item.
      *
@@ -49,19 +49,19 @@ public interface StringList {
      * @param index of an item to be removed
      * @return the removed item
      */
-    String remove(int index);
+    int removeByIndex(int index);
 
     // Checks if an item is listed in the list.
     // @return true if the item is listed, otherwise - false
-    boolean contains(String item);
+    boolean contains(int item);
 
     // Looks for an index of the first item occurrence within the list
     // @return the index of the specified item or -1 if there isn't such an item within the list
-    int indexOf(String item);
+    int indexOf(int item);
 
     // Looks for an index of the last item occurrence within the list
     // @return the index of the specified item or -1 if there isn't such an item within the list
-    int lastIndexOf(String item);
+    int lastIndexOf(int item);
 
     /** Gets an item specified with a position.
      *
@@ -70,14 +70,14 @@ public interface StringList {
      * @param index of an item to be got
      * @return the specified item
      */
-    String get(int index);
+    int get(int index);
 
-    /** Compares current StringList with another one.
+    /** Compares current IntegerList with another one.
      * @throws ListNullPointerException if otherList is null.
-     * @param otherList - a StringList instance to be compared with
+     * @param otherList - a IntegerList instance to be compared with
      * @return true if the content of the list are exactly the same, otherwise false
      **/
-    boolean equals(StringList otherList);
+    boolean equals(IntList otherList);
 
     /** @return the actual count of items within the list **/
     int size();
@@ -88,6 +88,6 @@ public interface StringList {
     /** Removes all the items from the list **/
     void clear();
 
-    /** @return a created String array with all the items of the list **/
-    String[] toArray();
+    /** @return a created Integer array with all the items of the list **/
+    int[] toArray();
 }

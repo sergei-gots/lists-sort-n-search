@@ -2,48 +2,49 @@ package pro.sky.util;
 
 import pro.sky.util.exception.*;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.IntStream;
 
-/** @implNote StringList with all the valued items placed at the head of,
+/** @implNote IntegerList with all the valued items placed at the head of,
  * i.e. in case the item is to be removed all the rest content will be shifted
  * one position to the head.
  *
  * **/
-public class DenseStringList implements StringList {
+public class DenseIntList implements IntList {
     private int capacity;
     private boolean expandable = false;
-    private final static int CAPACITY_INCREASE_MULTIPLICITY = 2;
+    private final static double CAPACITY_INCREASE_MULTIPLICITY = 1.5;
     private final static int DEFAULT_CAPACITY = 10;
-    private int count;
-    private String[] items;
+    int count;
+    int[] items;
 
-    public DenseStringList() {
+    public DenseIntList() {
         this(DEFAULT_CAPACITY);
     }
 
-    public DenseStringList(DenseStringList source) {
+    public DenseIntList(DenseIntList source) {
         this.expandable = source.expandable;
         this.capacity = source.capacity;
         this.count = source.count;
-        items = new String[capacity];
+        items = new int[capacity];
         IntStream.range(0, count).forEach(i -> items[i] = source.items[i]);
 
     }
 
-    public DenseStringList(int capacity) {
+    public DenseIntList(int capacity) {
         if (capacity < 0) {
             throw new IllegalArgumentException("The capacity should be a natural number");
         }
         this.capacity = capacity;
-        this.items = new String[capacity];
+        this.items = new int[capacity];
         this.count = 0;
     }
 
-    public DenseStringList(int capacity, boolean expandable) {
+    public DenseIntList(int capacity, boolean expandable) {
         this(capacity);
         this.expandable = expandable;
     }
-
     public int getCapacity() {
         return capacity;
     }
@@ -58,7 +59,7 @@ public class DenseStringList implements StringList {
     }
 
     @Override
-    public String add(String item) {
+    public int add(int item) {
         return add(count, item);
     }
 
@@ -66,8 +67,7 @@ public class DenseStringList implements StringList {
      * if the index points to an area outside the valued data
      **/
     @Override
-    public String add(int index, String item) {
-        validateItem(item);
+    public int add(int index, int item) {
         validateIndexWhileAdd(index);
 
         for(int i = count; i > index; i--) {
@@ -76,12 +76,6 @@ public class DenseStringList implements StringList {
         items[index] = item;
         count++;
         return item;
-    }
-
-    private void validateItem(String item) {
-        if(item == null) {
-            throw new ListItemIsNullException();
-        }
     }
 
     private void validateIndexWhileAdd(int index) {
@@ -97,11 +91,11 @@ public class DenseStringList implements StringList {
         }
         if(capacity < 1) {
             capacity = 1;
-            items = new String[capacity];
+            items = new int[capacity];
             return;
         }
-        capacity *= CAPACITY_INCREASE_MULTIPLICITY;
-        String[] commodiousList  = new String[capacity];
+        capacity = (int)((double)(capacity) * CAPACITY_INCREASE_MULTIPLICITY);
+        int[] commodiousList  = new int[capacity];
         System.arraycopy(items, 0, commodiousList, 0, items.length);
         items = commodiousList;
     }
@@ -116,8 +110,7 @@ public class DenseStringList implements StringList {
      * if the index points to an area outside the valued data
      **/
     @Override
-    public String set(int index, String item) {
-        validateItem(item);
+    public int set(int index, int item) {
         validateIndexWhileAdd(index);
 
         items[index] = item;
@@ -128,35 +121,32 @@ public class DenseStringList implements StringList {
     }
 
      @Override
-    public String remove(String item) {
-        validateItem(item);
+    public int removeByValue(int item) {
         int index = indexOf(item);
         if(index < 0) {
             throw new ListNoSuchElementException(item);
         }
-        return remove(index);
+        return removeByIndex(index);
     }
 
     @Override
-    public String remove(int index) {
+    public int removeByIndex(int index) {
         validateIndexIfDoesExist(index);
-        String item = items[index];
+        int item = items[index];
         count--;
         System.arraycopy(items, index+1, items, index, count-index);
         return item;
     }
 
     @Override
-    public boolean contains(String item) {
-        validateItem(item);
+    public boolean contains(int item) {
         return indexOf(item) >= 0;
     }
 
     @Override
-    public int indexOf(String item) {
-        validateItem(item);
+    public int indexOf(int item) {
         for (int i = 0; i < count; i++) {
-            if (items[i].equals(item)) {
+            if (items[i] == item) {
                 return i;
             }
         }
@@ -164,10 +154,9 @@ public class DenseStringList implements StringList {
     }
 
     @Override
-    public int lastIndexOf(String item) {
-        validateItem(item);
+    public int lastIndexOf(int item) {
         for (int i = count-1; i >= 0; i--) {
-            if (items[i].equals(item)) {
+            if (items[i] == item) {
                 return i;
             }
         }
@@ -175,13 +164,13 @@ public class DenseStringList implements StringList {
     }
 
     @Override
-    public String get(int index) {
+    public int get(int index) {
         validateIndexIfDoesExist(index);
         return items[index];
     }
 
     @Override
-    public boolean equals(StringList otherList) {
+    public boolean equals(IntList otherList) {
         if(otherList == null) {
             throw new ListNullPointerException();
         }
@@ -189,7 +178,7 @@ public class DenseStringList implements StringList {
             return false;
         }
         for(int i = 0; i < count; i++) {
-            if(!items[i].equals(otherList.get(i))) {
+            if(items[i] !=  otherList.get(i)) {
                 return false;
             }
         }
@@ -212,21 +201,34 @@ public class DenseStringList implements StringList {
     }
 
     @Override
-    public String[] toArray() {
-        String[] array = new String[count];
+    public int[] toArray() {
+        int[] array = new int[count];
         System.arraycopy(items, 0, array, 0, count);
         return array;
     }
 
-    public String[] toArray(int index) {
+    public int[] toArray(int index) {
         if(index > count) {
             throw new ListIndexOutOfBoundsException(index);
         }
         if(index == count) {
-            return new String[0];
+            return new int[0];
         }
-        String[] array = new String[count-index];
+        int[] array = new int[count-index];
         System.arraycopy(items, index, array, 0, count-index);
         return array;
+    }
+
+    public List<Integer> toList() {
+        return toList(0);
+    }
+
+    public List<Integer> toList(int index) {
+        int[] array = toArray(index);
+        List<Integer> list = new ArrayList<>(array.length);
+        for (int j : array) {
+            list.add(j);
+        }
+        return list;
     }
 }

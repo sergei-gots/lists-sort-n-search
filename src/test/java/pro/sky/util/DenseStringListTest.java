@@ -265,21 +265,21 @@ class DenseStringListTest {
     }
 
     @Test
-    void should_throwStringListIsFullException_when_capacityIs0_and_expandableIsFalse() {
+    void should_throwListIsFullException_when_capacityIs0_and_expandableIsFalse() {
         DenseStringList dsList = new DenseStringList(0, false);
         assertThat(dsList.size()).isEqualTo(0);
         assertThat(dsList.isEmpty()).isTrue();
-        assertThatExceptionOfType(StringListIsFullException.class)
+        assertThatExceptionOfType(ListIsFullException.class)
                 .isThrownBy(()->dsList.add("1. first"));
 
     }
 
     @Test
-    void should_throwStringListIsFullException_when_capacityIs0_and_expandableIsNoPassedToConstructor() {
+    void should_throwListIsFullException_when_capacityIs0_and_expandableIsNoPassedToConstructor() {
         DenseStringList dsList = new DenseStringList(0);
         assertThat(dsList.size()).isEqualTo(0);
         assertThat(dsList.isEmpty()).isTrue();
-        assertThatExceptionOfType(StringListIsFullException.class)
+        assertThatExceptionOfType(ListIsFullException.class)
                 .isThrownBy(()->dsList.add("1. first"));
 
     }
@@ -331,7 +331,7 @@ class DenseStringListTest {
     }
 
     @Test
-    void should_throwStringListIsFullException_when_add_and_expandableIsFalse_and_sizeIsEqualToCapacity() {
+    void should_throwListIsFullException_when_add_and_expandableIsFalse_and_sizeIsEqualToCapacity() {
         assertThat(denseStringList.isExpandable()).isFalse();
         for (int i = denseStringList.size(); i < 10 ; i++) {
             assertThat(denseStringList.size()).isEqualTo(i);
@@ -340,86 +340,86 @@ class DenseStringListTest {
             assertThat(denseStringList.indexOf("Item " + i)).isEqualTo(i);
             assertThat(denseStringList.size()).isEqualTo(i+1);
         }
-        assertThatExceptionOfType(StringListIsFullException.class)
+        assertThatExceptionOfType(ListIsFullException.class)
                 .isThrownBy(()->denseStringList.add("some item"));
 
     }
 
     @Test
-    void should_throwStringListIndexOutOfBoundsExceptionStringListIsFullException_when_addIndexIsNotANaturalNumber() {
-        assertThatExceptionOfType(StringListIndexOutOfBoundsException.class)
+    void should_throwListIndexOutOfBoundsExceptionStringListIsFullException_when_addIndexIsNotANaturalNumber() {
+        assertThatExceptionOfType(ListIndexOutOfBoundsException.class)
                 .isThrownBy(()->denseStringList.add(-1, "some item"));
     }
 
     @Test
-    void should_throwStringListIndexOutOfBoundsExceptionStringListIsFullException_when_addIndexIsGreaterThanSize() {
+    void should_throwListIndexOutOfBoundsExceptionStringListIsFullException_when_addIndexIsGreaterThanSize() {
         final int size = denseStringList.size();
-        assertThatExceptionOfType(StringListIndexOutOfBoundsException.class)
+        assertThatExceptionOfType(ListIndexOutOfBoundsException.class)
                 .isThrownBy(()->denseStringList.add(size+1, "some item"));
     }
 
     @Test
-    void should_throwStringListIndexOutOfBoundsExceptionStringListIsFullException_when_setIndexIsNotANaturalNumber() {
-        assertThatExceptionOfType(StringListIndexOutOfBoundsException.class)
+    void should_throwListIndexOutOfBoundsExceptionStringListIsFullException_when_setIndexIsNotANaturalNumber() {
+        assertThatExceptionOfType(ListIndexOutOfBoundsException.class)
                 .isThrownBy(()->denseStringList.set(-1, "some item"));
     }
 
     @Test
-    void should_throwStringListIndexOutOfBoundsExceptionStringListIsFullException_when_setIndexIsGreaterThanSize() {
+    void should_throwListIndexOutOfBoundsExceptionStringListIsFullException_when_setIndexIsGreaterThanSize() {
         final int size = denseStringList.size();
-        assertThatExceptionOfType(StringListIndexOutOfBoundsException.class)
+        assertThatExceptionOfType(ListIndexOutOfBoundsException.class)
                 .isThrownBy(()->denseStringList.set(size+1, "some item"));
     }
 
     @Test
-    void should_throwStringListOutOfBoundsException_when_getIndexIsNotNaturalNumber() {
-        assertThatExceptionOfType(StringListIndexOutOfBoundsException.class)
+    void should_throwListOutOfBoundsException_when_getIndexIsNotNaturalNumber() {
+        assertThatExceptionOfType(ListIndexOutOfBoundsException.class)
                 .isThrownBy(()->denseStringList.get(-1));
     }
 
     @Test
-    void should_throwStringListOutOfBoundsException_when_getIndexIsGreaterOrEqualTOCapacity() {
+    void should_throwListOutOfBoundsException_when_getIndexIsGreaterOrEqualTOCapacity() {
         final int capacity = denseStringList.getCapacity();
-        assertThatExceptionOfType(StringListIndexOutOfBoundsException.class)
+        assertThatExceptionOfType(ListIndexOutOfBoundsException.class)
                 .isThrownBy(()->denseStringList.get(capacity));
-        assertThatExceptionOfType(StringListIndexOutOfBoundsException.class)
+        assertThatExceptionOfType(ListIndexOutOfBoundsException.class)
                 .isThrownBy(()->denseStringList.get(capacity+1));
     }
 
     @Test
-    void should_throwStringListOutOfBounds_when_getIndexIsGreaterThanActualSize() {
+    void should_throwListOutOfBounds_when_getIndexIsGreaterThanActualSize() {
         final int size = denseStringList.size();
-        assertThatExceptionOfType(StringListIndexOutOfBoundsException.class)
+        assertThatExceptionOfType(ListIndexOutOfBoundsException.class)
                 .isThrownBy(()->denseStringList.get(size));
     }
 
     @Test
-    void should_throwStringListNoSuchElementException_when_removeItemThatIsNotListed() {
+    void should_throwListNoSuchElementException_when_removeItemThatIsNotListed() {
         final int size = denseStringList.size();
-        assertThatExceptionOfType(StringListNoSuchElementException.class)
+        assertThatExceptionOfType(ListNoSuchElementException.class)
                 .isThrownBy(()->denseStringList.remove("-1000. Unlisted Item"));
         assertThat(denseStringList.size()).isEqualTo(size);
     }
 
     @Test
-    void should_throwStringListOutOfBoundsException_when_removeIndexNotNaturalNumber_or_GreaterOrEqualToCapacity() {
+    void should_throwListOutOfBoundsException_when_removeIndexNotNaturalNumber_or_GreaterOrEqualToCapacity() {
         final int size = denseStringList.size();
         final int capacity = denseStringList.getCapacity();
-        assertThatExceptionOfType(StringListIndexOutOfBoundsException.class)
+        assertThatExceptionOfType(ListIndexOutOfBoundsException.class)
                 .isThrownBy(() -> denseStringList.remove(-1));
-        assertThatExceptionOfType(StringListIndexOutOfBoundsException.class)
+        assertThatExceptionOfType(ListIndexOutOfBoundsException.class)
                 .isThrownBy(() -> denseStringList.remove(-2));
-        assertThatExceptionOfType(StringListIndexOutOfBoundsException.class)
+        assertThatExceptionOfType(ListIndexOutOfBoundsException.class)
                 .isThrownBy(() -> denseStringList.remove(capacity));
-        assertThatExceptionOfType(StringListIndexOutOfBoundsException.class)
+        assertThatExceptionOfType(ListIndexOutOfBoundsException.class)
                 .isThrownBy(() -> denseStringList.remove(capacity + 1));
         assertThat(denseStringList.size()).isEqualTo(size);
     }
 
     @Test
-    void should_throwStringListIndexOutOfBoundsException_when_removeIndexGreaterOrEqualToActualSize() {
+    void should_throwListIndexOutOfBoundsException_when_removeIndexGreaterOrEqualToActualSize() {
         final int size = denseStringList.size();
-        assertThatExceptionOfType(StringListIndexOutOfBoundsException.class)
+        assertThatExceptionOfType(ListIndexOutOfBoundsException.class)
                 .isThrownBy(() -> denseStringList.remove(size));
         assertThat(denseStringList.size()).isEqualTo(size);
         denseStringList.remove(size-1);
@@ -427,40 +427,40 @@ class DenseStringListTest {
     }
 
     @Test
-    void should_throwStringListNullPointerException_when_equalsToOtherListWhichIsNull() {
-        assertThatExceptionOfType(StringListNullPointerException.class)
+    void should_throwListNullPointerException_when_equalsToOtherListWhichIsNull() {
+        assertThatExceptionOfType(ListNullPointerException.class)
                 .isThrownBy(() -> denseStringList.equals(null));
     }
 
     @Test
-    void should_throwStringListIndexOutOfBoundsException_whenToArrayIndexIsGreaterThanActualSize() {
+    void should_throwListIndexOutOfBoundsException_whenToArrayIndexIsGreaterThanActualSize() {
         final int size = denseStringList.size();
-        assertThatExceptionOfType(StringListIndexOutOfBoundsException.class)
+        assertThatExceptionOfType(ListIndexOutOfBoundsException.class)
                 .isThrownBy(() -> denseStringList.toArray(size+1));
         assertThat(denseStringList.toArray(size).length).isEqualTo(0);
         assertThat(denseStringList.toArray(size-1).length).isEqualTo(1);
     }
 
     @Test
-    void should_throwStringListItemIsNullException_whenAdd_whenItemIsNull() {
+    void should_throwListItemIsNullException_whenAdd_whenItemIsNull() {
         final int size = denseStringList.size();
-        assertThatExceptionOfType(StringListItemIsNullException.class)
+        assertThatExceptionOfType(ListItemIsNullException.class)
                 .isThrownBy(() -> denseStringList.add(null));
         assertThat(denseStringList.size()).isEqualTo(size);
     }
 
     @Test
-    void should_throwStringListItemIsNullException_whenAddWithIndex_whenItemIsNull() {
+    void should_throwListItemIsNullException_whenAddWithIndex_whenItemIsNull() {
         final int size = denseStringList.size();
-        assertThatExceptionOfType(StringListItemIsNullException.class)
+        assertThatExceptionOfType(ListItemIsNullException.class)
                 .isThrownBy(() -> denseStringList.add(0, null));
         assertThat(denseStringList.size()).isEqualTo(size);
     }
 
     @Test
-    void should_throwStringListItemIsNullException_whenSet_whenItemIsNull() {
+    void should_throwListItemIsNullException_whenSet_whenItemIsNull() {
         final int size = denseStringList.size();
-        assertThatExceptionOfType(StringListItemIsNullException.class)
+        assertThatExceptionOfType(ListItemIsNullException.class)
                 .isThrownBy(() -> denseStringList.set(0, null));
         assertThat(denseStringList.size()).isEqualTo(size);
     }
