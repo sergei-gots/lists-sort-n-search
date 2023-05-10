@@ -8,7 +8,7 @@ public class BenchmarkDenseIntList extends DenseIntList {
     private final static Random random = new Random();
 
     public BenchmarkDenseIntList() {
-        super(100_000);
+        super(TEST_DATA_SIZE);
         generateNewTestData();
     }
 
