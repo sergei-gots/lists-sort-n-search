@@ -15,7 +15,7 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThatExceptionOf
 
 class DenseIntListTest {
 
-    private DenseIntList denseIntegerList;
+    private DenseIntegerList denseIntegerList;
 
     public static Stream<Arguments> addParams() {
         return Stream.of(
@@ -69,7 +69,7 @@ class DenseIntListTest {
 
     @BeforeEach
     public void beforeEach() {
-        denseIntegerList = new DenseIntList();
+        denseIntegerList = new DenseIntegerList();
         denseIntegerList.add(10);
         denseIntegerList.add(20);
         denseIntegerList.add(30);
@@ -133,7 +133,7 @@ class DenseIntListTest {
         //GIVEN
         final int count = denseIntegerList.size();
         //WHEN
-        assertThat(denseIntegerList.removeByValue(item)).isEqualTo(item);
+        assertThat(denseIntegerList.remove(item)).isEqualTo(item);
         //THEN
         assertThat(denseIntegerList.size()).isEqualTo(count-1);
         assertThat(denseIntegerList.contains(item)).isFalse();
@@ -193,7 +193,7 @@ class DenseIntListTest {
 
     @Test
     void testEquals() {
-        DenseIntList stringListToCompare = new DenseIntList(denseIntegerList);
+        DenseIntegerList stringListToCompare = new DenseIntegerList(denseIntegerList);
         assertThat(denseIntegerList.equals(stringListToCompare)).isTrue();
         stringListToCompare.add(10);
         assertThat(denseIntegerList.equals(stringListToCompare)).isFalse();
@@ -260,13 +260,13 @@ class DenseIntListTest {
     @Test
     void should_throwIllegalArgumentExceptionWithMessage_when_capacityIsLessThan0 () {
         assertThatExceptionOfType(IllegalArgumentException.class)
-                .isThrownBy(()->new DenseIntList(-1))
+                .isThrownBy(()->new DenseIntegerList(-1))
                 .withMessage("The capacity should be a natural number");
     }
 
     @Test
     void should_add_when_capacityIs0_and_expandableIsTrue() {
-        DenseIntList dsList = new DenseIntList(0, true);
+        DenseIntegerList dsList = new DenseIntegerList(0, true);
         assertThat(dsList.size()).isEqualTo(0);
         assertThat(dsList.isEmpty()).isTrue();
         assertThat(dsList.add(10)).isEqualTo(10);
@@ -276,7 +276,7 @@ class DenseIntListTest {
 
     @Test
     void should_throwListIsFullException_when_capacityIs0_and_expandableIsFalse() {
-        DenseIntList dsList = new DenseIntList(0, false);
+        DenseIntegerList dsList = new DenseIntegerList(0, false);
         assertThat(dsList.size()).isEqualTo(0);
         assertThat(dsList.isEmpty()).isTrue();
         assertThatExceptionOfType(ListIsFullException.class)
@@ -286,7 +286,7 @@ class DenseIntListTest {
 
     @Test
     void should_throwListIsFullException_when_capacityIs0_and_expandableIsNoPassedToConstructor() {
-        DenseIntList dsList = new DenseIntList(0);
+        DenseIntegerList dsList = new DenseIntegerList(0);
         assertThat(dsList.size()).isEqualTo(0);
         assertThat(dsList.isEmpty()).isTrue();
         assertThatExceptionOfType(ListIsFullException.class)
@@ -409,7 +409,7 @@ class DenseIntListTest {
     void should_throwListNoSuchElementException_when_removeItemByValue_whenValueIsNotListed() {
         final int size = denseIntegerList.size();
         assertThatExceptionOfType(ListNoSuchElementException.class)
-                .isThrownBy(()->denseIntegerList.removeByValue(-1));
+                .isThrownBy(()->denseIntegerList.remove(-1));
         assertThat(denseIntegerList.size()).isEqualTo(size);
     }
 

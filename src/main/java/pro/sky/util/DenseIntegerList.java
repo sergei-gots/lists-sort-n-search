@@ -11,7 +11,7 @@ import java.util.stream.IntStream;
  * one position to the head.
  *
  * **/
-public class DenseIntList implements IntList {
+public class DenseIntegerList implements IntegerList {
     private int capacity;
     private boolean expandable = false;
     private final static double CAPACITY_INCREASE_MULTIPLICITY = 1.5;
@@ -19,11 +19,11 @@ public class DenseIntList implements IntList {
     int count;
     int[] items;
 
-    public DenseIntList() {
+    public DenseIntegerList() {
         this(DEFAULT_CAPACITY);
     }
 
-    public DenseIntList(DenseIntList source) {
+    public DenseIntegerList(DenseIntegerList source) {
         this.expandable = source.expandable;
         this.capacity = source.capacity;
         this.count = source.count;
@@ -32,7 +32,7 @@ public class DenseIntList implements IntList {
 
     }
 
-    public DenseIntList(int capacity) {
+    public DenseIntegerList(int capacity) {
         if (capacity < 0) {
             throw new IllegalArgumentException("The capacity should be a natural number");
         }
@@ -41,7 +41,7 @@ public class DenseIntList implements IntList {
         this.count = 0;
     }
 
-    public DenseIntList(int capacity, boolean expandable) {
+    public DenseIntegerList(int capacity, boolean expandable) {
         this(capacity);
         this.expandable = expandable;
     }
@@ -59,7 +59,7 @@ public class DenseIntList implements IntList {
     }
 
     @Override
-    public int add(int item) {
+    public Integer add(Integer item) {
         return add(count, item);
     }
 
@@ -67,7 +67,7 @@ public class DenseIntList implements IntList {
      * if the index points to an area outside the valued data
      **/
     @Override
-    public int add(int index, int item) {
+    public Integer add(int index, Integer item) {
         validateIndexWhileAdd(index);
 
         for(int i = count; i > index; i--) {
@@ -110,7 +110,7 @@ public class DenseIntList implements IntList {
      * if the index points to an area outside the valued data
      **/
     @Override
-    public int set(int index, int item) {
+    public Integer set(int index, Integer item) {
         validateIndexWhileAdd(index);
 
         items[index] = item;
@@ -121,7 +121,7 @@ public class DenseIntList implements IntList {
     }
 
      @Override
-    public int removeByValue(int item) {
+    public Integer remove(Integer item) {
         int index = indexOf(item);
         if(index < 0) {
             throw new ListNoSuchElementException(item);
@@ -130,7 +130,7 @@ public class DenseIntList implements IntList {
     }
 
     @Override
-    public int removeByIndex(int index) {
+    public Integer removeByIndex(int index) {
         validateIndexIfDoesExist(index);
         int item = items[index];
         count--;
@@ -139,12 +139,12 @@ public class DenseIntList implements IntList {
     }
 
     @Override
-    public boolean contains(int item) {
+    public boolean contains(Integer item) {
         return indexOf(item) >= 0;
     }
 
     @Override
-    public int indexOf(int item) {
+    public int indexOf(Integer item) {
         for (int i = 0; i < count; i++) {
             if (items[i] == item) {
                 return i;
@@ -154,7 +154,7 @@ public class DenseIntList implements IntList {
     }
 
     @Override
-    public int lastIndexOf(int item) {
+    public int lastIndexOf(Integer item) {
         for (int i = count-1; i >= 0; i--) {
             if (items[i] == item) {
                 return i;
@@ -164,13 +164,13 @@ public class DenseIntList implements IntList {
     }
 
     @Override
-    public int get(int index) {
+    public Integer get(int index) {
         validateIndexIfDoesExist(index);
         return items[index];
     }
 
     @Override
-    public boolean equals(IntList otherList) {
+    public boolean equals(IntegerList otherList) {
         if(otherList == null) {
             throw new ListNullPointerException();
         }

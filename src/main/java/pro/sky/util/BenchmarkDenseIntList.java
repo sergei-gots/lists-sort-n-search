@@ -2,7 +2,7 @@ package pro.sky.util;
 
 import java.util.Random;
 
-public class BenchmarkDenseIntList extends DenseIntList {
+public class BenchmarkDenseIntList extends DenseIntegerList {
 
     public final static int TEST_DATA_SIZE = 100_000;
     private final static Random random = new Random();

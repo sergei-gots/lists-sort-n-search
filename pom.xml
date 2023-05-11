@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>pro.sky.java</groupId>
-    <artifactId>stringlist</artifactId>
+    <artifactId>lists-sort-n-search</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
