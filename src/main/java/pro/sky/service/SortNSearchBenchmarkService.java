@@ -7,27 +7,29 @@ import pro.sky.util.SortingAndSearchingIntImpl;
 
 import java.util.Random;
 
-public class BenchmarkService {
+public class SortNSearchBenchmarkService {
     private final static Random random = new Random();
-    SortingAndSearchingInt sortAndSearchEngine = new SortingAndSearchingIntImpl();
-    BenchmarkDenseIntList testList = new BenchmarkDenseIntList();
+
+    private final BenchmarkDenseIntList testList = new BenchmarkDenseIntList();
+
+    private final SortingAndSearchingInt sortAndSearchEngine = new SortingAndSearchingIntImpl(testList);
+
 
     public  void performBenchmark() {
-        sortAndSearchEngine.loadTestData(testList.toArray());
         int valueToSearch = testList.get(random.nextInt(BenchmarkDenseIntList.TEST_DATA_SIZE));
         System.out.println("\n*** Sorting ***");
-        benchmarkSort(() -> sortAndSearchEngine.sortSelection(), "Selection sort");
-        benchmarkSort(() -> sortAndSearchEngine.sortBubble(), "Bubble sort   ");
-        benchmarkSort(() -> sortAndSearchEngine.sortInsertion(), "Insertion sort");
-
+        benchmarkSort(sortAndSearchEngine::sortSelection, "Selection sort");
+        benchmarkSort(sortAndSearchEngine::sortBubble, "Bubble sort   ");
+        benchmarkSort(sortAndSearchEngine::sortInsertion, "Insertion sort");
+        benchmarkSort(sortAndSearchEngine::sortRecursiveQuickSort, "Quick sort (recursive)");
         System.out.println("\n*** Search   ***");
-        benchmarkSearch((value) -> sortAndSearchEngine.containsLinear(value), valueToSearch, "Linear search");
-        benchmarkSearch((value) -> sortAndSearchEngine.containsBinary(value), valueToSearch, "Binary search");
+        benchmarkSearch(sortAndSearchEngine::containsLinear, valueToSearch, "Linear search");
+        benchmarkSearch(sortAndSearchEngine::containsBinary, valueToSearch, "Binary search");
 
     }
 
     public void benchmarkSort(CallableSorting callable, String sortName) {
-            System.out.print("Sort: " + sortName + "\t\t\t");
+            System.out.print("Sort: " + sortName + "\t\t\t\t");
             long time0 = System.currentTimeMillis();
             callable.sort();
             long time1 = System.currentTimeMillis();
@@ -37,7 +39,7 @@ public class BenchmarkService {
 
 
     public void benchmarkSearch(CallableSearching callable, int value, String searchName) {
-        System.out.print("Search: " + searchName + "\t\t\t");
+        System.out.print("Search: " + searchName + "\t\t\t\t");
         long time0 = System.currentTimeMillis();
         if(!callable.search(value)) {
             throw new IllegalArgumentException("There isn't such a value=" + value + " within array." );
