@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.MethodSource;
 import pro.sky.util.exception.*;
 
 import java.util.List;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
@@ -252,9 +253,7 @@ class DenseIntListTest {
     void toArray() {
         int [] actual = denseIntegerList.toArray();
         assertThat(actual.length).isEqualTo(5);
-        for (int i = 0; i < 5; i++) {
-            assertThat(actual[i]).isEqualTo((i + 1)* 10);
-        }
+        IntStream.range(0, 5).forEach(i -> assertThat(actual[i]).isEqualTo((i + 1) * 10));
     }
 
     @Test

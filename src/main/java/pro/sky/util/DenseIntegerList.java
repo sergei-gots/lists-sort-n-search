@@ -3,7 +3,9 @@ package pro.sky.util;
 import pro.sky.util.exception.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 /** @implNote IntegerList with all the valued items placed at the head of,
@@ -225,10 +227,6 @@ public class DenseIntegerList implements IntegerList {
 
     public List<Integer> toList(int index) {
         int[] array = toArray(index);
-        List<Integer> list = new ArrayList<>(array.length);
-        for (int j : array) {
-            list.add(j);
-        }
-        return list;
+        return Arrays.stream(array).boxed().collect(Collectors.toCollection(() -> new ArrayList<>(array.length)));
     }
 }
