@@ -35,14 +35,15 @@ public class BenchmarkService {
 
         //benchmark tests for sorting algorithms
         System.out.println("\n*** Sorting ***");
-        benchmarkSort(() -> sortAndSearchEngine.sortSelection(), "Selection sort");
-        benchmarkSort(() -> sortAndSearchEngine.sortBubble(), "Bubble sort   ");
-        benchmarkSort(() -> sortAndSearchEngine.sortInsertion(), "Insertion sort");
+        benchmarkSort(sortAndSearchEngine::sortSelection(), "Selection sort");
+        benchmarkSort(sortAndSearchEngine::sortBubble(), "Bubble sort   ");
+        benchmarkSort(sortAndSearchEngine::sortInsertion(), "Insertion sort");
+        benchmarkSort(sortAndSearchEngine::sortRecursiveQuickSort, "Quick sort (recursive)");
 
         //benchmark tests for search algorithms
         System.out.println("\n*** Search   ***");
-        benchmarkSearch((value) -> sortAndSearchEngine.containsLinear(value), valueToSearch, "Linear search");
-        benchmarkSearch((value) -> sortAndSearchEngine.containsBinary(value), valueToSearch, "Binary search");
+        benchmarkSearch(sortAndSearchEngine::containsLinear(value), valueToSearch, "Linear search");
+        benchmarkSearch(sortAndSearchEngine::containsBinary(value), valueToSearch, "Binary search");
 
     }
 
