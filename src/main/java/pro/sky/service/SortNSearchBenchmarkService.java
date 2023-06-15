@@ -7,20 +7,23 @@ import pro.sky.util.SortingAndSearchingIntImpl;
 
 import java.util.Random;
 
-public class BenchmarkService {
+public class SortNSearchBenchmarkService {
     //used to get index of value for search
     private final static Random random = new Random();
-    
-    //sort-n-search-implementing engine
-    SortingAndSearchingInt sortAndSearchEngine = new SortingAndSearchingIntImpl();
-    
+
     //Instance of ArrayList's replicating class, stores test data for bench tests
     BenchmarkDenseIntList testList = new BenchmarkDenseIntList();
+
+    //sort-n-search-implementing engine
+    SortingAndSearchingInt sortAndSearchEngine = new SortingAndSearchingIntImpl(testList);
+    
+
 
     /** Performs set of benchmark tests for:
             - selection sort;
             - bubble sort;
             - insertion sort;
+            - quick (recursive) sort.
             and then benchmark tests for search a value within test array data:
             - linear search;
             - binary search 
@@ -28,22 +31,20 @@ public class BenchmarkService {
             with printing results to the console.
     **/
     public  void performBenchmark() {
-        //init sort-n-search-engine with test data
-        sortAndSearchEngine.loadTestData(testList.toArray());
         //get random value to search from the data
         int valueToSearch = testList.get(random.nextInt(BenchmarkDenseIntList.TEST_DATA_SIZE));
 
         //benchmark tests for sorting algorithms
         System.out.println("\n*** Sorting ***");
-        benchmarkSort(sortAndSearchEngine::sortSelection(), "Selection sort");
-        benchmarkSort(sortAndSearchEngine::sortBubble(), "Bubble sort   ");
-        benchmarkSort(sortAndSearchEngine::sortInsertion(), "Insertion sort");
+        benchmarkSort(sortAndSearchEngine::sortSelection, "Selection sort");
+        benchmarkSort(sortAndSearchEngine::sortBubble, "Bubble sort   ");
+        benchmarkSort(sortAndSearchEngine::sortInsertion, "Insertion sort");
         benchmarkSort(sortAndSearchEngine::sortRecursiveQuickSort, "Quick sort (recursive)");
 
         //benchmark tests for search algorithms
         System.out.println("\n*** Search   ***");
-        benchmarkSearch(sortAndSearchEngine::containsLinear(value), valueToSearch, "Linear search");
-        benchmarkSearch(sortAndSearchEngine::containsBinary(value), valueToSearch, "Binary search");
+        benchmarkSearch(sortAndSearchEngine::containsLinear, valueToSearch, "Linear search");
+        benchmarkSearch(sortAndSearchEngine::containsBinary, valueToSearch, "Binary search");
 
     }
 
@@ -76,7 +77,7 @@ public class BenchmarkService {
     /** Invokes method search(value) of callableSearchingEngine-instance,
      *  measures and prints time the method search(value) takes,
      *  also prints the name of tested sorting algorithm.
-     *  @param callableSearchingEngine - interface implementation (anonymous) with the specified invokation of search method.
+     *  @param callableSearching - interface implementation (anonymous) with the specified invokation of search method.
      *  @param value - value to search
      *  @param searchName - name of searching algorithm to be printed.
      *  @throws IllegalArgumentException if the value
